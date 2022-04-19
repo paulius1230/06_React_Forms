@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useReducer, createContext } from 'react';
 import { useNavigate, BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
+const peopleFromLocalStorage = JSON.parse(localStorage.getItem("people") || "[]");
+
 const StudentForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -8,15 +10,17 @@ const StudentForm = () => {
   const [city, setCity] = useState('');
   const [program, setProgram] = useState('');
   const [group, setGroup] = useState('');
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState(peopleFromLocalStorage);
   const navigate = useNavigate();
  
-
+    useEffect(() => {
+    localStorage.setItem("people", JSON.stringify(people));
+  }, [people]);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (firstName && lastName && birthDate, city, program, group) {
       const person = { id: new Date().getTime().toString(), firstName, lastName, birthDate, city, program, group };
-      console.log(person);
       setPeople((people) => {
         return [...people, person];
       });
